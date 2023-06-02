@@ -7,10 +7,10 @@ const initialState = {
     results: null,
 };
 
-const URL = 'products/'
+const URL = 'category/'
 
-const productsSlice = createSlice({
-    name: "products",
+const categorySlice = createSlice({
+    name: "category",
     initialState,
     reducers: {
         setItem: (state, { payload }) => {
@@ -21,16 +21,13 @@ const productsSlice = createSlice({
         setError: (state, { payload }) => {
             state.error = payload;
         },
-        removeItem: (state, {payload}) => {
-            state.results = state.results.filter((i) => i.id !== payload.id)
-        }
     },
 });
 
-export const { setItem, setError, removeItem } = productsSlice.actions;
-export default productsSlice.reducer;
+export const { setItem, setError } = categorySlice.actions;
+export default categorySlice.reducer;
 
-export function getProducts() {
+export function getCategory() {
     return async (dispatch) => {
         instance
             .get(URL)
@@ -43,13 +40,12 @@ export function getProducts() {
     };
 }
 
-export function addProduct(data) {
+export function addCategory(data) {
     return async (dispatch) => {
         instance
             .post(URL, data, {
                 headers: {
-                    Authorization: `Token ${token}`,
-                    'Content-Type': 'multipart/form-data'
+                    Authorization: `Token ${token}`
                 }
             })
             .then((response) => {
@@ -61,21 +57,5 @@ export function addProduct(data) {
     };
 }
 
-export function removeProduct(id) {
-    return async (dispatch) => {
-        instance
-            .delete(`${URL}/${id}/`, {
-                headers: {
-                    Authorization: `Token ${token}`,
-                }
-            })
-            .then((response) => {
-                dispatch(removeItem(response.data))
-            })
-            .catch((er) => {
-                dispatch(setError(er.response?.data))
-            });
-    };
-}
 
 

@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { addProduct, getProducts } from '../../redux/slices/products'
+import { addProduct, getProducts, removeItem, removeProduct } from '../../redux/slices/products'
 import { Modal } from '../Modal'
 import { useForm } from "react-hook-form";
 import { ProductItem } from './item';
+import Select from 'react-select';
+import { getCategory } from '../../redux/slices/categories';
 
 export const Products = () => {
     const dispatch = useDispatch()
-    const { products } = useSelector((state) => state)
+    const { products, category } = useSelector((state) => state)
 
     const [atributes, setAtributes] = useState([])
     const [photos, setPhotos] = useState([])
+    const [productCategory, setProductCategory] = useState()
 
     const { register, handleSubmit, watch, formState: { errors }, reset } = useForm();
     const onSubmit = data => {
@@ -18,27 +21,33 @@ export const Products = () => {
             title: data.title,
             description: data.description,
             price: data.price,
-            category: data.category,
+            category: productCategory.id,
             atributes: atributes,
             photos: photos,
         }))
 
         setAtributes([])
         setPhotos([])
+        setProductCategory()
 
         reset({
             title: '',
             description: '',
             price: '',
-            category: '',
         })
     };
+
+    const remove = (id) => {
+        dispatch(removeProduct(id))
+    }
 
     const [modal, setModal] = useState(false)
 
     useEffect(() => {
         dispatch(getProducts())
+        dispatch(getCategory())
     }, [])
+
 
 
     return (
@@ -63,9 +72,9 @@ export const Products = () => {
                                         <div className='item_text'>{i.title}</div>
                                         <div className='item_text'>{i.description}</div>
                                         <div className='item_text'>{i.price}$</div>
- 31                                   </div>
+                                    </div>
                                     <div className='item_btns'>
-                                        <button style={{ width: '100%' }}>remove</button>
+                                        <button onClick={() => remove(i.id)} style={{ width: '100%' }}>remove</button>
                                         <div style={{ paddingTop: '10px' }}><button style={{ width: '100%' }}>edit</button></div>
                                     </div>
                                 </div>
@@ -81,7 +90,7 @@ export const Products = () => {
                             <div className='input_add'><input placeholder='title' type="text" {...register("title", { required: true })} /></div>
                             <div className='input_add'><input placeholder='description' type="text" {...register("description", { required: true })} /></div>
                             <div className='input_add'><input placeholder='price' type="number" {...register("price", { required: true })} /></div>
-                            <div className='input_add'><input placeholder='category' type="number" {...register("category", { required: true })} /></div>
+                            <Select onChange={(e) => setProductCategory(e)} options={category?.results?.results?.map((i) => ({ value: i.title, label: i.title, id: i.id}))} />
                         </div>
                         <div>
                             {
