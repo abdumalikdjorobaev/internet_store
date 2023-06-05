@@ -22,7 +22,7 @@ const productsSlice = createSlice({
             state.error = payload;
         },
         removeItem: (state, {payload}) => {
-            state.results = state.results.filter((i) => i.id !== payload.id)
+            state.results = state.results.filter((i) => i.id !== payload)
         }
     },
 });
@@ -44,6 +44,7 @@ export function getProducts() {
 }
 
 export function addProduct(data) {
+    console.log(data);
     return async (dispatch) => {
         instance
             .post(URL, data, {

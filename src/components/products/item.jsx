@@ -7,6 +7,7 @@ export const ProductItem = ({ photo, index }) => {
         photo.photo = e.target.files[0]
         setImg(URL.createObjectURL(e.target.files[0]))
     }
+    console.log(photo);
     return (
         <div>
             <div style={{ paddingBottom: '20px' }}>

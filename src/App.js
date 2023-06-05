@@ -4,6 +4,7 @@ import { LogIn } from "./pages/LogIn";
 import './style.scss'
 import { Register } from "./pages/Register";
 import { useEffect } from "react";
+import { Trash } from "./pages/Trash";
 
 function App() {
   const navigate = useNavigate()
@@ -18,6 +19,7 @@ function App() {
       
       <Routes>
         <Route path='/' element={<Main/>}/>
+        <Route path='/trash' element={<Trash/>}/>
         <Route path='/register' element={<Register/>}/>
         <Route path='/log-in' element={<LogIn/>}/>
       </Routes>

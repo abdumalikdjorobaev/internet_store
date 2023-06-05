@@ -6,10 +6,11 @@ import { useForm } from "react-hook-form";
 import { ProductItem } from './item';
 import Select from 'react-select';
 import { getCategory } from '../../redux/slices/categories';
+import { addItemOrder } from '../../redux/slices/trash';
 
 export const Products = () => {
     const dispatch = useDispatch()
-    const { products, category } = useSelector((state) => state)
+    const { products, category, trash } = useSelector((state) => state)
 
     const [atributes, setAtributes] = useState([])
     const [photos, setPhotos] = useState([])
@@ -17,13 +18,14 @@ export const Products = () => {
 
     const { register, handleSubmit, watch, formState: { errors }, reset } = useForm();
     const onSubmit = data => {
+        console.log(photos);
         dispatch(addProduct({
             title: data.title,
             description: data.description,
             price: data.price,
             category: productCategory.id,
-            atributes: atributes,
-            photos: photos,
+            atributes: [],
+            photos: [],
         }))
 
         setAtributes([])
@@ -37,9 +39,17 @@ export const Products = () => {
         })
     };
 
+    console.log(trash?.sendResults);
+
     const remove = (id) => {
         dispatch(removeProduct(id))
     }
+    const MoveToTrash = (i) => {
+        const find = trash?.results?.filter((item) => item === i);
+        if (find.length == 0) {
+          dispatch(addItemOrder(i));
+        }
+      };
 
     const [modal, setModal] = useState(false)
 
@@ -47,7 +57,6 @@ export const Products = () => {
         dispatch(getProducts())
         dispatch(getCategory())
     }, [])
-
 
 
     return (
@@ -76,6 +85,7 @@ export const Products = () => {
                                     <div className='item_btns'>
                                         <button onClick={() => remove(i.id)} style={{ width: '100%' }}>remove</button>
                                         <div style={{ paddingTop: '10px' }}><button style={{ width: '100%' }}>edit</button></div>
+                                        <div onClick={() => MoveToTrash(i)} style={{ paddingTop: '10px' }}><button style={{ width: '100%' }}>trash</button></div>
                                     </div>
                                 </div>
                             </div>
@@ -98,13 +108,11 @@ export const Products = () => {
                                     <div>{index + 1}atribute</div>
                                     <input placeholder='atribut title' onChange={(e) => i.title = e.target.value} />
                                     <input placeholder='atribut value' onChange={(e) => i.value = e.target.value} />
-                                    <input type='number' placeholder='product number' onChange={(e) => i.product = e.target.value} />
                                 </div>)
                             }
                             <button onClick={() => setAtributes(atributes => [...atributes, {
                                 title: "",
                                 value: "",
-                                product: 1
                             }])}>add atribute +</button>
                             {
                                 atributes.length !== 0 ? <button style={{ marginTop: '10px' }} onClick={() => setAtributes(atributes => atributes.filter((i, index) => index !== 0))}>remove atribute -</button> : null
@@ -117,7 +125,6 @@ export const Products = () => {
                             }
                             <button onClick={() => setPhotos(photos => [...photos, {
                                 photo: "",
-                                product: 20
                             }])}>add photo +</button>
                             {
                                 photos.length !== 0 ? <button style={{ marginTop: '10px' }} onClick={() => setPhotos(photos => photos.filter((i, index) => index !== 0))}>remove atribute -</button> : null
