@@ -17,6 +17,7 @@ export const Trash = () => {
         order: index + 1,
         product: i.id,
         quantity: 1,
+        
         status: "АК"
     })))
 
