@@ -18,14 +18,14 @@ export const Products = () => {
 
     const { register, handleSubmit, watch, formState: { errors }, reset } = useForm();
     const onSubmit = data => {
-        console.log(photos);
+        console.log(photos, data,atributes);
         dispatch(addProduct({
             title: data.title,
             description: data.description,
             price: data.price,
             category: productCategory.id,
-            atributes: [],
-            photos: [],
+            atributes: atributes,
+            photos: photos,
         }))
 
         setAtributes([])
@@ -83,8 +83,8 @@ export const Products = () => {
                                         <div className='item_text'>{i.price}$</div>
                                     </div>
                                     <div className='item_btns'>
-                                        <button onClick={() => remove(i.id)} style={{ width: '100%' }}>remove</button>
-                                        <div style={{ paddingTop: '10px' }}><button style={{ width: '100%' }}>edit</button></div>
+                                        {/* <button onClick={() => remove(i.id)} style={{ width: '100%' }}>remove</button> */}
+                                        {/* <div style={{ paddingTop: '10px' }}><button style={{ width: '100%' }}>edit</button></div> */}
                                         <div onClick={() => MoveToTrash(i)} style={{ paddingTop: '10px' }}><button style={{ width: '100%' }}>trash</button></div>
                                     </div>
                                 </div>

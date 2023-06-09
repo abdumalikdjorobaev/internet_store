@@ -9,15 +9,20 @@ export const Trash = () => {
     const dispatch = useDispatch()
     const { trash } = useSelector((state) => state)
 
-    const remove = (id) => {
+    const remove = (id) => {    
         dispatch(removeItemOrder(id))
+        setSendItems(trash?.results?.filter((item) => item.id !== id).map((i) => ({
+            item: i,
+            product: i.id,
+            quantity: 1,
+            status: "АК"
+        })))
     }
 
-    const [sendItems, setSendItems] = useState(trash?.results?.map((i, index) => ({
-        order: index + 1,
+    const [sendItems, setSendItems] = useState(trash?.results?.map((i) => ({
+        item: i,
         product: i.id,
         quantity: 1,
-        
         status: "АК"
     })))
 
@@ -26,8 +31,13 @@ export const Trash = () => {
             ordered_date: "2023-06-05T13:13:28.787Z",
             shipping_address: "string",
             payment: true,
-            items: sendItems,
-        }))
+            items: sendItems.map((item) => ({
+                product: item?.item?.id,
+                quantity: item.quantity,
+                status: item.status
+            })),
+        }), setSendItems)
+        setSendItems([])
     }
 
     return (
@@ -36,8 +46,8 @@ export const Trash = () => {
             <div>
                 <div className='items'>
                     {
-                        trash?.results?.map((item, index) =>
-                            <TrashItem item={item} remove={remove} index={index}/>
+                        sendItems?.map((item, index) =>
+                            <TrashItem item={item.item} remove={remove} index={index} />
                         )
                     }
                     {
@@ -48,7 +58,9 @@ export const Trash = () => {
                 </div>
             </div>
 
-            <button onClick={sendOrders} style={{ marginLeft: '20px' }}>Send orders</button>
+          {
+            trash?.results?.length == 0 ? null : <button onClick={sendOrders} style={{ marginLeft: '20px' }}>Send orders</button>
+          }  
 
 
         </div>

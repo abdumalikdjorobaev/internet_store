@@ -36,7 +36,7 @@ export default trashSlice.reducer;
 
 
 
-export function addTrash(data) {
+export function addTrash(data, setSendItems) {
     return async (dispatch) => {
         instance
             .post(URL, data, {
@@ -45,7 +45,8 @@ export function addTrash(data) {
                 }
             })
             .then((response) => {
-                alert('access')
+                dispatch(setItem([]))
+                setSendItems([])
             })
             .catch((er) => {
                 dispatch(setError(er.response?.data))

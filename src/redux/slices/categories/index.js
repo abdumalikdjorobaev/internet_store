@@ -21,16 +21,36 @@ const categorySlice = createSlice({
         setError: (state, { payload }) => {
             state.error = payload;
         },
+        addItem: (state, { payload }) => {
+            state.results.push(payload);
+        },
     },
 });
 
-export const { setItem, setError } = categorySlice.actions;
+export const { setItem, setError, addItem } = categorySlice.actions;
 export default categorySlice.reducer;
 
 export function getCategory() {
     return async (dispatch) => {
         instance
             .get(URL)
+            .then((response) => {
+                dispatch(setItem(response.data))
+            })
+            .catch((er) => {
+                dispatch(setError(er.response?.data))
+            });
+    };
+}
+
+export function getCategoryUrl(url) {
+    return async (dispatch) => {
+        instance
+            .get(url,{
+                headers: {
+                    Authorization: `Token ${token}`,
+                }
+            })
             .then((response) => {
                 dispatch(setItem(response.data))
             })
@@ -49,7 +69,7 @@ export function addCategory(data) {
                 }
             })
             .then((response) => {
-                dispatch(setItem(response.data))
+                dispatch( addItem(response.data))
             })
             .catch((er) => {
                 dispatch(setError(er.response?.data))

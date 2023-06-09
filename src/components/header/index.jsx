@@ -15,9 +15,9 @@ export const Header = () => {
             <div className='header_inner'>
                 <div className='logo'>Logo</div>
                 <div className='nav'>
-                    <div className='nav_bar'>Main</div>
-                    <div className='nav_bar'>Profile</div>
-                    <div className='nav_bar'>Example</div>
+                    <Link to='/' className='nav_bar'>Main</Link>
+                    <Link to='/category' className='nav_bar'>Category</Link>
+                    <Link to='/users' className='nav_bar'>Users</Link>
                 </div>
                 <div style={{display: 'flex', gap: '10px'}} className='header_btn'>
                     <button onClick={() => navigate(-1)}>Back</button>
