@@ -17,7 +17,6 @@ export const Category = () => {
     const postCategory = (data) => {
         dispatch(addCategory(data))
     }
-    console.log(category);
 
     const nextGetCategory = () => {
         dispatch(getCategoryUrl(category?.results?.next))
@@ -30,7 +29,6 @@ export const Category = () => {
 
   return (
     <div>
-        <Header/>
         <div className='category'>
             <div className='category_add'>
                 <input type="text" {...register("title", { required: true })}/>
@@ -41,9 +39,9 @@ export const Category = () => {
                 category?.results?.results?.map((item, index) => 
                     <div key={index} className='user'>
                         <div className='user_item'>
-                        <div className='user_id'><div className='span'>id:</div> {item.id}</div>
-                        <div className='user_username'><div className='span'>title:</div> {item.title}</div>
-                        <div className='user_email'><div className='span'>description:</div> {item.description}</div>
+                        <div className='user_id'><div className='span'>id:</div> {item?.id}</div>
+                        <div className='user_username'><div className='span'>title:</div> {item?.title}</div>
+                        <div className='user_email'><div className='span'>description:</div> {item?.description}</div>
                         </div>
                         <div>
                             <button>edit</button>
@@ -53,7 +51,7 @@ export const Category = () => {
                 )
             }
             {
-                category?.results.previous ? <button onClick={nextGetCategory}>prev</button> : null
+                category?.results?.previous ? <button onClick={nextGetCategory}>prev</button> : null
             }
            {
             category?.results?.next ? <button onClick={prevGetCategory}>next</button> : null

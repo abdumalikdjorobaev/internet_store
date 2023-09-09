@@ -57,12 +57,12 @@ export const Products = () => {
         dispatch(getProducts())
         dispatch(getCategory())
     }, [])
-
+console.log(products);
 
     return (
         <div className='products'>
             <div className='add_buttom'>
-                <button onClick={() => setModal(true)}>Add product +</button>
+                <button onClick={() => setModal(true)}>Добавить продукт +</button>
             </div>
             <div className='products_inner'>
                 <div className='items'>
@@ -76,7 +76,6 @@ export const Products = () => {
                                         )
                                     }
                                 </div>
-                                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                     <div className='item_items'>
                                         <div className='item_text'>{i.title}</div>
                                         <div className='item_text'>{i.description}</div>
@@ -85,15 +84,14 @@ export const Products = () => {
                                     <div className='item_btns'>
                                         {/* <button onClick={() => remove(i.id)} style={{ width: '100%' }}>remove</button> */}
                                         {/* <div style={{ paddingTop: '10px' }}><button style={{ width: '100%' }}>edit</button></div> */}
-                                        <div onClick={() => MoveToTrash(i)} style={{ paddingTop: '10px' }}><button style={{ width: '100%' }}>trash</button></div>
+                                        <div onClick={() => MoveToTrash(i)} style={{ paddingTop: '10px' }}><button className='products_button' style={{ width: '100%' }}>Move to trash</button></div>
                                     </div>
-                                </div>
                             </div>
                         )
                     }
                 </div>
             </div>
-            <Modal title={'Add Products'} setModal={setModal} modal={modal} element={
+            <Modal title={'Добавить продукт'} setModal={setModal} modal={modal} element={
                 <div className='inputs_add'>
                     <div style={{ display: 'flex', gap: '50px', flexWrap: 'wrap' }}>
                         <div>
@@ -113,7 +111,7 @@ export const Products = () => {
                             <button onClick={() => setAtributes(atributes => [...atributes, {
                                 title: "",
                                 value: "",
-                            }])}>add atribute +</button>
+                            }])}>Добавить атрибут +</button>
                             {
                                 atributes.length !== 0 ? <button style={{ marginTop: '10px' }} onClick={() => setAtributes(atributes => atributes.filter((i, index) => index !== 0))}>remove atribute -</button> : null
                             }
@@ -125,13 +123,13 @@ export const Products = () => {
                             }
                             <button onClick={() => setPhotos(photos => [...photos, {
                                 photo: "",
-                            }])}>add photo +</button>
+                            }])}>Добавить фото +</button>
                             {
                                 photos.length !== 0 ? <button style={{ marginTop: '10px' }} onClick={() => setPhotos(photos => photos.filter((i, index) => index !== 0))}>remove atribute -</button> : null
                             }
                         </div>
                     </div>
-                    <button style={{ marginTop: '20px' }} onClick={handleSubmit(onSubmit)}>add products +</button>
+                    <button style={{ marginTop: '20px' }} onClick={handleSubmit(onSubmit)}>Добавить продукт +</button>
                 </div>
             } />
         </div>

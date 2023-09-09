@@ -21,9 +21,9 @@ export const Modal = ({modal, setModal, element, title}) => {
             borderRadius: '12px',
             padding: '24px',
         }}>
-            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '30px'}}>
                 <h2>{title}</h2>
-                <div><button onClick={() => setModal(false)} sx={{cursor: 'pointer', height: '20px'}}>close</button></div>
+                <div><button onClick={() => setModal(false)} sx={{cursor: 'pointer', height: '20px'}}>Закрыть</button></div>
             </div>
             {element}
         </div>

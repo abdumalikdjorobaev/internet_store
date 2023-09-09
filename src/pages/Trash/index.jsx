@@ -42,7 +42,6 @@ export const Trash = () => {
 
     return (
         <div>
-            <Header />
             <div>
                 <div className='items'>
                     {

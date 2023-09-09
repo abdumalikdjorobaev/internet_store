@@ -22,7 +22,7 @@ const categorySlice = createSlice({
             state.error = payload;
         },
         addItem: (state, { payload }) => {
-            state.results.push(payload);
+            state.results.results.push(payload);
         },
     },
 });
@@ -69,7 +69,7 @@ export function addCategory(data) {
                 }
             })
             .then((response) => {
-                dispatch( addItem(response.data))
+                dispatch(addItem(response.data))
             })
             .catch((er) => {
                 dispatch(setError(er.response?.data))
